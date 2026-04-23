@@ -1,6 +1,6 @@
 $kind: http-request
 name: upload
-url: http://localhost:3000/image
+url: http://localhost:3000/images
 method: POST
 body:
   type: formdata
@@ -14,5 +14,5 @@ body:
 auth:
   type: bearer
   credentials:
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJrYXVhbnBzMjI3MUBnbWFpbC5jb20iLCJpYXQiOjE3NzQ3OTM2NDMsImV4cCI6MTc3NDc5NzI0M30.loMXj37zWUMvMXUM598zLNJkTI9xRMEi42nVc4tOtug
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJrYXVhbnBzMjI3MUBnbWFpbC5jb20iLCJpYXQiOjE3NzUyNTgwMTQsImV4cCI6MTc3NTI2MTYxNH0.gkSuiwfrptlFoXS_sd4_bQrVTRsFaO_JUFK0LtZlxqg
 order: 1774432735551

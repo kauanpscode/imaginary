@@ -9,7 +9,7 @@ interface UserRow {
   id: number;
   username: string;
   email: string;
-  password_hash: string;
+  password: string;
 }
 
 export const login = async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const user = userByEmail.rows[0];
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).json({ message: "User or password incorrect." });
@@ -77,7 +77,7 @@ export const register = async (req: Request, res: Response) => {
 
     // Importante: Use RETURNING no SQL para o TS saber o que voltou
     const newUser = await pool.query<UserRow>(
-      "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username, email",
+      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email",
       [username, email, hashedPassword],
     );
 

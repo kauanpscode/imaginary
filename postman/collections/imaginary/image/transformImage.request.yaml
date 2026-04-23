@@ -1,0 +1,56 @@
+$kind: http-request
+name: transformImage
+url: http://localhost:3000/images/e2757ff5-e590-4e64-9637-a69ee5c2475a/transform
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "resize": { "width": 300, "height": 100 },
+      "rotate": 90,
+      "format": "jpg",
+      "filters": {
+        "grayscale": true
+      }
+    }
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJrYXVhbnBzMjI3MUBnbWFpbC5jb20iLCJpYXQiOjE3NzY5MDE2MzQsImV4cCI6MTc3NjkwNTIzNH0.acJzGMTPyCWXOPPpd-yy9zf6G-0sSHV2_63ugLKQZ5A
+scripts:
+  - type: afterResponse
+    code: >-
+      const base64Image = btoa(String.fromCharCode.apply(null, new
+      Uint8Array(pm.response.stream)));
+
+      const contentType = pm.response.headers.get('Content-Type') ||
+      'image/jpeg';
+
+      const size = pm.response.headers.get('Content-Length') ||
+      pm.response.stream.byteLength;
+
+
+      const template = `
+        <html>
+          <body style="font-family: sans-serif; padding: 16px;">
+            <h3>Image Preview</h3>
+            <img src="data:image/jpeg;base64,{{base64Image}}" style="max-width: 100%; border: 1px solid #ccc;" />
+            <h4>Metadata</h4>
+            <ul>
+              <li><strong>Status:</strong> {{status}}</li>
+              <li><strong>Content-Type:</strong> {{contentType}}</li>
+              <li><strong>Content-Length:</strong> {{size}} bytes</li>
+            </ul>
+          </body>
+        </html>
+      `;
+
+
+      pm.visualizer.set(template, {
+        base64Image: base64Image,
+        contentType: contentType,
+        size: size,
+        status: pm.response.status
+      });
+    language: text/javascript
+order: 340062076130058
